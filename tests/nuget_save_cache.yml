@@ -14,7 +14,9 @@ jobs:
     steps:
       - checkout
       - run: dotnet restore
+        working_directory: /workspace/${CIRCLE_PROJECT_REPONAME}/tests
       - nuget-cache/nuget_save_cache:
           cache_key: test_save_cache
           project: nuget-cache-orb
           project_cache: false
+          working_directory: /workspace/${CIRCLE_PROJECT_REPONAME}/tests
