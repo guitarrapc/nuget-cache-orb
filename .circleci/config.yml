@@ -35,11 +35,11 @@ workflows:
           attach-workspace: true
           orb-name: nuget-cache
           test-steps:
-            - test/local-test-build:
+            - orb-tools/local-test-build:
                 path: tests/save_cache.yml
-            - test/local-test-build:
+            - orb-tools/local-test-build:
                 path: tests/restore_cache.yml
-            - test/local-test-build:
+            - orb-tools/local-test-build:
                 path: tests/resore_save.yml
           requires:
             - orb-tools/pack
