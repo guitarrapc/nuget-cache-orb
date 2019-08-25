@@ -17,5 +17,6 @@ jobs:
           cache_key: test_save_cache
           project: nuget-cache-orb
           working_directory: /workspace/${CIRCLE_PROJECT_REPONAME}/tests
-      -  run: dotnet build --no-restore
-        working_directory: /workspace/${CIRCLE_PROJECT_REPONAME}/tests
+      -  run: 
+          command: dotnet build --no-restore
+          working_directory: /workspace/${CIRCLE_PROJECT_REPONAME}/tests
