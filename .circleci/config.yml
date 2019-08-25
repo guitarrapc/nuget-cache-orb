@@ -1,0 +1,117 @@
+version: 2.1
+
+orbs:
+  orb-tools: circleci/orb-tools@volatile
+  nuget-cache: 'guitarrapc/nuget-cache@dev:alpha'
+
+# yaml anchor filters
+integration-dev_filters: &integration-dev_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /integration-.*/
+
+integration-master_filters: &integration-master_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /master-.*/
+
+prod-deploy_requires: &prod-deploy_requires
+  [test-commands-master]
+
+workflows:
+  lint_pack-validate_publish-dev:
+    jobs:
+      - orb-tools/lint
+      - orb-tools/pack:
+          requires:
+            - orb-tools/lint
+      - orb-tools/publish-dev:
+          orb-name: guitarrapc/nuget-cache
+          requires:
+            - orb-tools/pack
+      - orb-tools/trigger-integration-workflow:
+          ssh-fingerprints: ee:ba:83:e2:0d:5a:5e:b2:81:73:c7:8e:3e:3a:8b:6e
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              ignore: master
+      - orb-tools/trigger-integration-workflow:
+          ssh-fingerprints: ee:ba:83:e2:0d:5a:5e:b2:81:73:c7:8e:3e:3a:8b:6e
+          tag: master
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              only: master
+
+  integration-tests_prod-release:
+    jobs:
+      - orb-tools/pack:
+          name: pack-dev
+          filters: *integration-dev_filters
+      - orb-tools/pack:
+          name: pack-master
+          filters: *integration-master_filters
+      - orb-tools/test-in-builds:
+          attach-workspace: true
+          orb-name: nuget-cache
+          test-steps:
+            - orb-tools/local-test-build:
+                test-config-location: tests/save_cache.yml
+            - orb-tools/local-test-build:
+                test-config-location: tests/restore_cache.yml
+            - orb-tools/local-test-build:
+                test-config-location: tests/resore_save.yml
+          filters: *integration-dev_filters
+          requires:
+            - pack-dev
+      - orb-tools/test-in-builds:
+          attach-workspace: true
+          orb-name: nuget-cache
+          test-steps:
+            - orb-tools/local-test-build:
+                test-config-location: tests/save_cache.yml
+            - orb-tools/local-test-build:
+                test-config-location: tests/restore_cache.yml
+            - orb-tools/local-test-build:
+                test-config-location: tests/resore_save.yml
+          name: test-commands-master
+          filters: *integration-master_filters
+          requires:
+            - pack-master
+      # patch, minor, or major publishing
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          orb-name: guitarrapc/nuget-cache
+          cleanup-tags: true
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-patch.*/
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-minor
+          orb-name: guitarrapc/nuget-cache
+          release: minor
+          cleanup-tags: true
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-minor.*/
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-major
+          orb-name: guitarrapc/nuget-cache
+          release: major
+          cleanup-tags: true
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-major.*/

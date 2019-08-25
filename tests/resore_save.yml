@@ -1,0 +1,24 @@
+version: 2.1
+
+executors:
+  dotnet2_2:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    environment:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+      NUGET_XMLDOC_MODE: skip
+
+jobs:
+  build:
+    executor: dotnet2_2
+    steps:
+      - checkout
+      - nuget_cache/nuget_restore_cache:
+          cache_key: test_save_cache
+          project: nuget-cache-orb_restore_save
+      - run: dotnet restore
+      - nuget_cache/nuget_save_cache:
+          cache_key: test_save_cache_restore_save
+          project: nuget-cache-orb
+          project_cache: false
+      -  run: dotnet build --no-restore

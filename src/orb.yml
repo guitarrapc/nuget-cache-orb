@@ -1,0 +1,12 @@
+version: 2.1
+
+description: |
+  nuget cache on CircleCI.
+  https://github.com/guitarrapc/nuget-cache-orb
+
+## Requirements ##
+## - dotnet sdk
+
+## Commands
+## - nuget_save_cache
+## - nuget_restore_cache
