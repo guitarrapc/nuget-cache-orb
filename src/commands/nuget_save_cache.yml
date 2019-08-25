@@ -9,7 +9,7 @@ parameters:
   working_directory:
     type: string
     default: "/workspace"
-  cachekey:
+  cache_key:
     type: string
     default: "$CACHE_KEY"
   project:
@@ -28,7 +28,7 @@ steps:
       working_directory: << parameters.working_directory >>
   - save_cache:
       name: Cache nuget pacakges
-      key: nuget-<< parameters.cachekey >>-<< parameters.project >>-{{ checksum "~/cache-key-source-<< parameters.project >>" }}
+      key: nuget-<< parameters.cache_key >>-<< parameters.project >>-{{ checksum "~/cache-key-source-<< parameters.project >>" }}
       paths:
         - "~/.nuget"
   - when:
@@ -36,6 +36,6 @@ steps:
       steps:
         - save_cache:
             name: Cache nuget pacakges for << parameters.project >>
-            key: nuget-<< parameters.cachekey >>-<< parameters.project >>-
+            key: nuget-<< parameters.cache_key >>-<< parameters.project >>-
             paths:
               - "~/.nuget"
