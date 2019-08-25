@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   orb-tools: circleci/orb-tools@volatile
-  nuget-cache: 'guitarrapc/nuget-cache@dev:alpha'
+  #nuget-cache: 'guitarrapc/nuget-cache@dev:alpha'
 
 # yaml anchor filters
 integration-dev_filters: &integration-dev_filters
@@ -44,14 +44,14 @@ workflows:
           requires:
             - orb-tools/pack
       - orb-tools/trigger-integration-workflow:
-          ssh-fingerprints: SSH_KEY
+          ssh-fingerprints: ee:ba:83:e2:0d:5a:5e:b2:81:73:c7:8e:3e:3a:8b:6e
           requires:
             - orb-tools/publish-dev
           filters:
             branches:
               ignore: master
       - orb-tools/trigger-integration-workflow:
-          ssh-fingerprints: SSH_KEY
+          ssh-fingerprints: ee:ba:83:e2:0d:5a:5e:b2:81:73:c7:8e:3e:3a:8b:6e
           tag: master
           requires:
             - orb-tools/publish-dev
