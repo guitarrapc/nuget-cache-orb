@@ -1,4 +1,4 @@
-description: cache nuget package based on checksum of csproj.
+description: restore nuget package cache based on checksum of csproj.
 parameters:
   search_path:
     type: string
@@ -9,7 +9,7 @@ parameters:
   working_directory:
     type: string
     default: "/workspace"
-  cachekey:
+  cache_key:
     type: string
     default: "$CACHE_KEY"
   project:
@@ -26,7 +26,7 @@ steps:
   - restore_cache:
       name: Restore nuget pacakges
       keys:
-        - nuget-<< parameters.cachekey >>-<< parameters.project >>-{{ checksum "~/cache-key-source-<< parameters.project >>" }}
-        - nuget-<< parameters.cachekey >>-<< parameters.project >>-
-        - nuget-<< parameters.cachekey >>-
+        - nuget-<< parameters.cache_key >>-<< parameters.project >>-{{ checksum "~/cache-key-source-<< parameters.project >>" }}
+        - nuget-<< parameters.cache_key >>-<< parameters.project >>-
+        - nuget-<< parameters.cache_key >>-
         - nuget-

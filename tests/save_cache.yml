@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - run: dotnet restore
-      - nuget-cache/nuget_save_cache:
+      - nuget-cache/save_cache:
           cache_key: test_save_cache
           project: nuget-cache-orb
           project_cache: false
