@@ -13,7 +13,7 @@ jobs:
     executor: dotnet2_2
     steps:
       - checkout
-      - run: 
+      - run:
           command: dotnet restore
           working_directory: /workspace/${CIRCLE_PROJECT_REPONAME}/tests
       - nuget-cache/nuget_save_cache:
