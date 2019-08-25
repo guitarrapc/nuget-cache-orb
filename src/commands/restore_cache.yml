@@ -1,0 +1,32 @@
+description: cache nuget package based on checksum of csproj.
+parameters:
+  search_path:
+    type: string
+    default: "."
+  target_file_pattern:
+    type: string
+    default: "*.csproj"
+  working_directory:
+    type: string
+    default: "/workspace"
+  cachekey:
+    type: string
+    default: $CACHE_KEY
+  project:
+    type: string
+    default: ""
+steps:
+  - run:
+      name: Calculate cache key for csproj
+      command: |
+        {
+          md5sum $(find << parameters.search_path >> -name << parameters.target_file_pattern >> | sort -r)
+        } > ~/cache-key-source-<< parameters.project >>
+      working_directory: << parameters.working_directory >>
+  - restore_cache:
+      name: Restore nuget pacakges
+      keys:
+        - nuget-<< parameters.cachekey >>-<< parameters.project >>-{{ checksum "~/cache-key-source-<< parameters.project >>" }}
+        - nuget-<< parameters.cachekey >>-<< parameters.project >>-
+        - nuget-<< parameters.cachekey >>-
+        - nuget-
