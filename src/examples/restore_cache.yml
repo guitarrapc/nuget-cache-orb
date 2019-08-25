@@ -16,7 +16,7 @@ usage:
     build:
       executor: dotnet2_2
       steps:
-        - nuget_cache/restore_cache
+        - nuget_cache/restore_cache:
             cache_key: test_save_cache
             project: nuget-cache-orb
         -  run: dotnet build --no-restore

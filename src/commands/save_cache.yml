@@ -11,7 +11,7 @@ parameters:
     default: "/workspace"
   cachekey:
     type: string
-    default: $CACHE_KEY
+    default: "$CACHE_KEY"
   project:
     type: string
     default: ""
