@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   orb-tools: circleci/orb-tools@volatile
-  #nuget-cache: 'guitarrapc/nuget-cache@dev:alpha'
+  nuget-cache: 'guitarrapc/nuget-cache@dev:alpha'
 
 # yaml anchor filters
 integration-dev_filters: &integration-dev_filters
