@@ -19,4 +19,4 @@ usage:
         - nuget_cache/nuget_restore_cache:
             cache_key: test_save_cache
             project: nuget-cache-orb
-        -  run: dotnet build --no-restore
+        -  run: dotnet build
