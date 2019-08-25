@@ -60,11 +60,11 @@ workflows:
           orb-name: nuget-cache
           test-steps:
             - orb-tools/local-test-build:
-                test-config-location: tests/save_cache.yml
+                test-config-location: tests/nuget_save_cache.yml
             - orb-tools/local-test-build:
-                test-config-location: tests/restore_cache.yml
+                test-config-location: tests/nuget_restore_cache.yml
             - orb-tools/local-test-build:
-                test-config-location: tests/resore_save.yml
+                test-config-location: tests/nuget_resore_save.yml
           filters: *integration-dev_filters
           requires:
             - pack-dev
@@ -73,11 +73,11 @@ workflows:
           orb-name: nuget-cache
           test-steps:
             - orb-tools/local-test-build:
-                test-config-location: tests/save_cache.yml
+                test-config-location: tests/nuget_save_cache.yml
             - orb-tools/local-test-build:
-                test-config-location: tests/restore_cache.yml
+                test-config-location: tests/nuget_restore_cache.yml
             - orb-tools/local-test-build:
-                test-config-location: tests/resore_save.yml
+                test-config-location: tests/nuget_resore_save.yml
           name: test-commands-master
           filters: *integration-master_filters
           requires:
