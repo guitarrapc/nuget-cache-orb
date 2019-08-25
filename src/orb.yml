@@ -8,5 +8,5 @@ description: |
 ## - dotnet sdk
 
 ## Commands
-## - save_cache
-## - restore_cache
+## - nuget_save_cache
+## - nuget_restore_cache

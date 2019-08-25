@@ -13,7 +13,7 @@ jobs:
     executor: dotnet2_2
     steps:
       - run: dotnet restore
-      - nuget_cache/save_cache:
+      - nuget_cache/nuget_save_cache:
           cache_key: test_save_cache
           project: nuget-cache-orb
           project_cache: false

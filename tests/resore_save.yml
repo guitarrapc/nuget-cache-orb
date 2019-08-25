@@ -12,11 +12,11 @@ jobs:
   build:
     executor: dotnet2_2
     steps:
-      - nuget_cache/restore_cache:
+      - nuget_cache/nuget_restore_cache:
           cache_key: test_save_cache
           project: nuget-cache-orb_restore_save
       - run: dotnet restore
-      - nuget_cache/save_cache:
+      - nuget_cache/nuget_save_cache:
           cache_key: test_save_cache_restore_save
           project: nuget-cache-orb
           project_cache: false
