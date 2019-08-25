@@ -16,7 +16,7 @@ jobs:
       - nuget-cache/nuget_restore_cache:
           cache_key: test_save_cache
           project: nuget-cache-orb
-          working_directory: /root/project/${CIRCLE_PROJECT_REPONAME}/tests
+          working_directory: /root/project/tests
       - run:
           command: dotnet build --no-restore
-          working_directory: /root/project/${CIRCLE_PROJECT_REPONAME}/tests
+          working_directory: /root/project/tests
